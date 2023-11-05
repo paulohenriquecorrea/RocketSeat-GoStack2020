@@ -9,21 +9,21 @@ import Header from './components/Header';
 function App() {
   const [projects, setProjects] = useState([]);
 
-  // useEffect(() => {
-  //   api.get('projects').then((response) => {
-  //     console.log(response);
-  //   });
-  // }, []);
-
-  useEffect(async () => {
-    const response = await api.get('projects');
-    setProjects(response.data);
+  useEffect(() => {
+    api.get('projects').then((response) => {
+      setProjects(response.data);
+    });
   }, []);
 
-  function handleAddProject() {
-    // projects.push(`Novo projeto ${Date.now()}`);
-    setProjects([...projects, `Novo projeto ${Date.now()}`]);
-    console.log(projects);
+  async function handleAddProject() {
+    // setProjects([...projects, `Novo projeto ${Date.now()}`]);
+    const response = await api.post('projects', {
+      title: `Novo Projeto ${Date.now()}`,
+      author: 'Paulo H.',
+      pages: 389,
+    });
+    const project = response.data;
+    setProjects([...projects, project]);
   }
   return (
     <>
